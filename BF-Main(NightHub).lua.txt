@@ -1,4 +1,94 @@
--- [[ PROJECT-X | RISE HUB V7 - FULL INTEGRATION ]] --
+-- [[ PROJECT-X | RISE HUB V7 ]] --
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+
+-- 1. CONFIG TABLOSU (Night Hub Source ile Birebir Eşleşme)
+-- Dosyadaki nil hatalarını bu tabloyu en üste koyarak bitiriyoruz.
+_G.Config = {
+    ["Auto Farm Level"] = false,
+    ["Fast Attack"] = true,
+    ["Distance Mob"] = 8,
+    ["Tween Speed"] = 300,
+    ["Auto Buso Haki"] = true,
+    ["Auto Stats"] = {
+        ["Melee"] = false,
+        ["Defense"] = false,
+        ["Sword"] = false,
+        ["Gun"] = false,
+        ["Demon Fruit"] = false
+    }
+}
+
+-- 2. ANA PENCERE (Kırmızı-Siyah Tema)
+local Window = Fluent:CreateWindow({
+    Title = "PROJECT-X | RISE HUB",
+    SubTitle = "Night Hub Powered",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 460),
+    Acrylic = false,
+    Theme = "Dark"
+})
+Fluent.Options.AccentColor = Color3.fromRGB(255, 0, 0)
+
+-- 3. "T" ŞEKLİNDE AÇMA/KAPATMA BUTONU
+local T_Toggle = Instance.new("ScreenGui", game:GetService("CoreGui"))
+local T_Btn = Instance.new("TextButton", T_Toggle)
+Instance.new("UICorner", T_Btn).CornerRadius = UDim.new(0, 8)
+
+T_Btn.Size = UDim2.new(0, 45, 0, 45)
+T_Btn.Position = UDim2.new(0.02, 0, 0.20, 0)
+T_Btn.BackgroundColor3 = Color3.fromRGB(30, 0, 0)
+T_Btn.Text = "T"
+T_Btn.TextColor3 = Color3.fromRGB(255, 0, 0)
+T_Btn.TextSize = 28
+T_Btn.Font = Enum.Font.FredokaOne
+T_Btn.Draggable = true
+
+T_Btn.MouseButton1Click:Connect(function()
+    Window:Minimize()
+end)
+
+-- 4. SEKMELER
+local Tabs = {
+    Main = Window:AddTab({ Title = "Main Farm", Icon = "home" }),
+    Combat = Window:AddTab({ Title = "Combat", Icon = "sword" }),
+    Stats = Window:AddTab({ Title = "Stats", Icon = "bar-chart" }),
+    Teleport = Window:AddTab({ Title = "Teleport", Icon = "map-pin" })
+}
+
+-- 5. FONKSİYONLARIN UI'A BAĞLANMASI
+-- Main Farm
+Tabs.Main:AddToggle("AutoFarmLvl", {Title = "Auto Farm Level", Default = false}):OnChanged(function(v)
+    _G.Config["Auto Farm Level"] = v
+end)
+
+-- Combat
+Tabs.Combat:AddToggle("FastAtk", {Title = "Fast Attack", Default = true}):OnChanged(function(v)
+    _G.Config["Fast Attack"] = v
+end)
+
+Tabs.Combat:AddSlider("MobDist", {Title = "Distance Mob", Min = 0, Max = 15, Default = 8, Callback = function(v)
+    _G.Config["Distance Mob"] = v
+end})
+
+-- Stats
+local StatOptions = {"Melee", "Defense", "Sword", "Gun", "Demon Fruit"}
+for _, statName in pairs(StatOptions) do
+    Tabs.Stats:AddToggle("Stat"..statName, {Title = "Auto "..statName, Default = false}):OnChanged(function(v)
+        _G.Config["Auto Stats"][statName] = v
+    end)
+end
+
+-- Teleport (Travel Remotes)
+Tabs.Teleport:AddButton({
+    Title = "Join Sea 1",
+    Callback = function() game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TravelMain") end
+})
+
+Window:SelectTab(1)
+Fluent:Notify({Title = "RISE HUB V7", Content = "Night Hub motoru hazır!", Duration = 5})
+
+-- BURADAN SONRA SENİN GITHUB'DAKİ SOURCE KODLARIN GELMELİ --
+
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 
 -- 1. HATA FIX: Global Config Tanımlama
@@ -3396,5 +3486,6 @@ Modules:BuildUI()
 LoadedHub = true
 
 print("[Minh Nghia] Loaded in", tick() - start_time)
+
 
 
