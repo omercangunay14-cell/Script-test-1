@@ -1,3 +1,48 @@
+-- [[ PROJECT-X | RISE HUB V7 - FULL INTEGRATION ]] --
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+
+-- 1. HATA FIX: Global Config Tanımlama
+-- Night Hub source kodun bu tabloyu bekliyor.
+_G.Config = {
+    ["Auto Farm Level"] = false,
+    ["Fast Attack"] = true,
+    ["Distance Mob"] = 8,
+    ["Tween Speed"] = 300,
+    ["Auto Buso Haki"] = true,
+    ["Auto Stats"] = {
+        ["Melee"] = false,
+        ["Defense"] = false,
+        ["Sword"] = false
+    }
+}
+
+-- 2. UI PENCERESİ
+local Window = Fluent:CreateWindow({
+    Title = "PROJECT-X | RISE HUB",
+    SubTitle = "Night Hub Engine",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 460),
+    Theme = "Dark"
+})
+Fluent.Options.AccentColor = Color3.fromRGB(255, 0, 0)
+
+-- 3. "T" TOGGLE BUTONU
+local T_Button = Instance.new("ScreenGui", game:GetService("CoreGui"))
+local Btn = Instance.new("TextButton", T_Button)
+Btn.Size, Btn.Text, Btn.Position = UDim2.new(0, 45, 0, 45), "T", UDim2.new(0.02, 0, 0.20, 0)
+Btn.BackgroundColor3, Btn.TextColor3 = Color3.fromRGB(20, 0, 0), Color3.fromRGB(255, 0, 0)
+Instance.new("UICorner", Btn).CornerRadius = UDim.new(0, 8)
+Btn.MouseButton1Click:Connect(function() Window:Minimize() end)
+
+-- 4. SEKMELER VE BUTONLAR
+local MainTab = Window:AddTab({ Title = "Main Farm", Icon = "home" })
+
+MainTab:AddToggle("FarmLvl", {Title = "Auto Farm Level", Default = false}):OnChanged(function(v)
+    _G.Config["Auto Farm Level"] = v -- Source koddaki değişkenle eşlendi
+end)
+
+-- BURADAN SONRA SENİN NIGHT HUB KODLARIN DEVAM ETSİN
+
 -- [[ PROJECT-X | RISE HUB V7 ]] --
 -- Night Hub Source Fonksiyonlarına Göre Hazırlanmış Özel UI --
 
@@ -3351,4 +3396,5 @@ Modules:BuildUI()
 LoadedHub = true
 
 print("[Minh Nghia] Loaded in", tick() - start_time)
+
 
