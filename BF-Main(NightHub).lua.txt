@@ -40,9 +40,6 @@ local Tabs = {
     Teleport = Window:AddTab({ Title = "Teleport", Icon = "map-pin" }),
     World = Window:AddTab({ Title = "World", Icon = "globe" })
 }
-
--- 4. FONKSİYON TETİKLEYİCİLERİ (Source'a Göre)
-
 -- [[ MAIN FARM ]]
 Tabs.Main:AddToggle("AutoFarmLvl", {Title = "Auto Farm Level", Default = false}):OnChanged(function(v)
     _G.Config["Auto Farm Level"] = v
@@ -3354,3 +3351,4 @@ Modules:BuildUI()
 LoadedHub = true
 
 print("[Minh Nghia] Loaded in", tick() - start_time)
+
